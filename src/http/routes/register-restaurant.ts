@@ -5,7 +5,8 @@ import { users, restaurants } from '../../db/schema'
 export const registerRestaurant = new Elysia().post(
   '/restaurants',
   async ({ body, set }) => {
-    const { restaurantName, managerName, email, phone } = body
+    const { restaurantName, restaurantDescription, managerName, email, phone } =
+      body
 
     const [manager] = await db
       .insert(users)
@@ -21,6 +22,7 @@ export const registerRestaurant = new Elysia().post(
 
     await db.insert(restaurants).values({
       name: restaurantName,
+      description: restaurantDescription,
       managerId: manager.id,
     })
 
@@ -29,6 +31,7 @@ export const registerRestaurant = new Elysia().post(
   {
     body: t.Object({
       restaurantName: t.String(),
+      restaurantDescription: t.String(),
       managerName: t.String(),
       phone: t.String(),
       email: t.String({ format: 'email' }),
