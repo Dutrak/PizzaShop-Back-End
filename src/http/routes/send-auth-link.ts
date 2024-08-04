@@ -6,7 +6,7 @@ import { env } from '../../env'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
-  async ({ body }) => {
+  async ({ body, set }) => {
     const { email } = body
 
     const userFromEmail = await db.query.users.findFirst({
@@ -31,6 +31,7 @@ export const sendAuthLink = new Elysia().post(
     authLink.searchParams.set('redirectUrl', env.AUTH_REDIRECT_URL)
 
     console.log(authLink.toString())
+    set.status = 204
   },
   {
     body: t.Object({
