@@ -3,7 +3,7 @@ import { text, timestamp, pgTable, pgEnum } from 'drizzle-orm/pg-core'
 
 export const userRoleEnum = pgEnum('user_role', ['manager', 'customer'])
 
-export const user = pgTable("user", {
+export const users = pgTable("user", {
   id: text("id").$defaultFn(() => createId()).primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
