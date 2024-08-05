@@ -4,7 +4,7 @@ import { UnauthorizedError } from '../errors/unauthorized-error'
 import { db } from '../../db/connection'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 import { orders } from '../../db/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 export const deliverOrder = new Elysia().use(auth).patch(
   '/orders/:orderId/deliver',
@@ -37,7 +37,7 @@ export const deliverOrder = new Elysia().use(auth).patch(
     await db
       .update(orders)
       .set({ status: 'delivered' })
-      .where(eq(orders.id, orderId))
+      .where(and(eq(orders.id, orderId), eq(orders.restaurantId, restaurantId)))
 
     set.status = 204
   },
