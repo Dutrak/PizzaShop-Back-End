@@ -1,5 +1,8 @@
 import { Elysia } from 'elysia'
 
+import { UnauthorizedError } from './errors/unauthorized-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
+
 import { registerRestaurant } from './routes/register-restaurant'
 import { sendAuthLink } from './routes/send-auth-link'
 import { authenticateFromLink } from './routes/authenticate-from-link'
@@ -7,10 +10,11 @@ import { signOut } from './routes/sign-out'
 import { getProfile } from './routes/get-profile'
 import { getManagedRestaurants } from './routes/get-managed-restaurants'
 
-import { UnauthorizedError } from './errors/unauthorized-error'
-import { ResourceNotFoundError } from './errors/resource-not-found-error'
 import { getOrderDetails } from './routes/get-order-details'
 import { approveOrder } from './routes/approve-order'
+import { cancelOrder } from './routes/cancel-order'
+import { deliverOrder } from './routes/deliver-order'
+import { dispatchOrder } from './routes/dispatch-order'
 
 const app = new Elysia()
   .error({
@@ -49,6 +53,9 @@ const app = new Elysia()
   .use(getManagedRestaurants)
   .use(getOrderDetails)
   .use(approveOrder)
+  .use(cancelOrder)
+  .use(deliverOrder)
+  .use(dispatchOrder)
 
 app.listen(3333, () => {
   console.log('Http Server Running')
