@@ -4,6 +4,8 @@ import { createId } from '@paralleldrive/cuid2'
 import { authLinks } from '../../db/schema'
 import { env } from '../../env'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { mail } from '../../lib/mail'
+import nodemailer from 'nodemailer'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
@@ -25,13 +27,24 @@ export const sendAuthLink = new Elysia().post(
       code: authLinkCode,
     })
 
-    // Enviar um e-mail
-
     const authLink = new URL('/auth-links/authenticate', env.API_BASE_URL)
     authLink.searchParams.set('code', authLinkCode)
     authLink.searchParams.set('redirectUrl', env.AUTH_REDIRECT_URL)
 
+    // Enviar um e-mail
+    const info = await mail.sendMail({
+      from: {
+        name: 'Pizza Shop',
+        address: 'admin@pizzashop.com',
+      },
+      to: email,
+      subject: 'Authenticate to Pizza Shop',
+      html: `<h1>Pizza Shop</h1> <p> Use the following link to authenticate on Pizza Shop: <a>${authLink.toString()}</a> </p>`,
+    })
+
     console.log(authLink.toString())
+    console.log(nodemailer.getTestMessageUrl(info))
+
     set.status = 204
   },
   {
