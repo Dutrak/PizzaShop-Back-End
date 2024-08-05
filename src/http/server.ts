@@ -8,10 +8,12 @@ import { getProfile } from './routes/get-profile'
 import { getManagedRestaurants } from './routes/get-managed-restaurants'
 
 import { UnauthorizedError } from './errors/unauthorized-error'
+import { ResourceNotFoundError } from './errors/resource-not-found-error'
 
 const app = new Elysia()
   .error({
     UNAUTHORIZED: UnauthorizedError,
+    RESOURCE_NOT_FOUND: ResourceNotFoundError,
   })
   .onError(({ error, code, set }) => {
     switch (code) {
@@ -27,6 +29,10 @@ const app = new Elysia()
             message: e.summary,
           }
         })
+      }
+      case 'RESOURCE_NOT_FOUND': {
+        set.status = 404
+        return { message: error.message }
       }
       case 'NOT_FOUND': {
         return new Response(null, { status: 404 })
