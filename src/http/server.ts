@@ -16,6 +16,12 @@ import { cancelOrder } from './routes/cancel-order'
 import { deliverOrder } from './routes/deliver-order'
 import { dispatchOrder } from './routes/dispatch-order'
 import { getOrders } from './routes/get-orders'
+import { getMonthRevenue } from './routes/get-month-revenue'
+import { getDayOrdersAmount } from './routes/get-day-orders-amount'
+import { getMonthOrdersAmount } from './routes/get-month-orders-amout'
+import { getMonthCanceledOrdersAmount } from './routes/get-month-canceled-orders-amount'
+import { getPopularProducts } from './routes/get-popular-products'
+import { getDailyRevenueInPeriod } from './routes/get-daily-revenue-in-period'
 
 const app = new Elysia()
   .error({
@@ -58,6 +64,12 @@ const app = new Elysia()
   .use(deliverOrder)
   .use(dispatchOrder)
   .use(getOrders)
+  .use(getMonthRevenue)
+  .use(getDayOrdersAmount)
+  .use(getMonthOrdersAmount)
+  .use(getMonthCanceledOrdersAmount)
+  .use(getPopularProducts)
+  .use(getDailyRevenueInPeriod)
 
 app.listen(3333, () => {
   console.log('Http Server Running')
