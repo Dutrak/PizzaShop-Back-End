@@ -3,6 +3,7 @@ import { db } from '../../db/connection'
 import { createId } from '@paralleldrive/cuid2'
 import { authLinks } from '../../db/schema'
 import { env } from '../../env'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 export const sendAuthLink = new Elysia().post(
   '/authenticate',
@@ -15,7 +16,7 @@ export const sendAuthLink = new Elysia().post(
       },
     })
 
-    if (!userFromEmail) throw new Error('Resource not Found!')
+    if (!userFromEmail) throw new ResourceNotFoundError()
 
     const authLinkCode = createId()
 
@@ -37,5 +38,11 @@ export const sendAuthLink = new Elysia().post(
     body: t.Object({
       email: t.String({ format: 'email' }),
     }),
+    error({ error, set }) {
+      if (error instanceof ResourceNotFoundError) {
+        set.status = 404
+        return { message: error.message }
+      }
+    },
   },
 )
