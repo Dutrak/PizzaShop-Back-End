@@ -9,6 +9,7 @@ import { getManagedRestaurants } from './routes/get-managed-restaurants'
 
 import { UnauthorizedError } from './errors/unauthorized-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
+import { getOrderDetails } from './routes/get-order-details'
 
 const app = new Elysia()
   .error({
@@ -45,6 +46,7 @@ const app = new Elysia()
   .use(signOut)
   .use(getProfile)
   .use(getManagedRestaurants)
+  .use(getOrderDetails)
 
 app.listen(3333, () => {
   console.log('Http Server Running')
