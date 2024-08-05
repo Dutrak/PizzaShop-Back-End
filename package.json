@@ -19,6 +19,7 @@
     "@typescript-eslint/parser": "^8.0.0",
     "dayjs": "^1.11.12",
     "drizzle-orm": "^0.32.1",
+    "drizzle-typebox": "^0.1.1",
     "elysia": "^1.1.5",
     "eslint-plugin-drizzle": "^0.2.3",
     "nodemailer": "^6.9.14",
