@@ -10,7 +10,7 @@ export const getOrders = new Elysia().use(auth).get(
   '/orders',
   async ({ getCurrentUser, query }) => {
     const { restaurantId } = await getCurrentUser()
-    const { pageIndex, costumerName, orderId, status } = query
+    const { pageIndex, customerName, orderId, status } = query
 
     if (!restaurantId) throw new UnauthorizedError()
 
@@ -20,16 +20,18 @@ export const getOrders = new Elysia().use(auth).get(
         createdAt: orders.createdAt,
         status: orders.status,
         total: orders.totalInCents,
-        costumerName: users.name,
+        customerName: users.name,
       })
       .from(orders)
-      .innerJoin(users, eq(users.id, orders.costumerId))
+      .innerJoin(users, eq(users.id, orders.customerId))
       .where(
         and(
           eq(orders.restaurantId, restaurantId),
           orderId ? ilike(orders.id, `%${orderId}%`) : undefined,
           status ? eq(orders.status, status) : undefined,
-          costumerName ? ilike(users.name, `%${costumerName}%`) : undefined,
+          customerName
+            ? ilike(users.name, `%${customerName.replace('+', ' ')}%`)
+            : undefined,
         ),
       )
 
@@ -66,7 +68,7 @@ export const getOrders = new Elysia().use(auth).get(
   },
   {
     query: t.Object({
-      costumerName: t.Optional(t.String()),
+      customerName: t.Optional(t.String()),
       orderId: t.Optional(t.String()),
       status: t.Optional(createSelectSchema(orders).properties.status),
       pageIndex: t.Numeric({ minimum: 0 }),
