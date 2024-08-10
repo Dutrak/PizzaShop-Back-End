@@ -142,7 +142,7 @@ for (let i = 0; i < 200; i++) {
 
   ordersToInsert.push({
     id: orderId,
-    costumerId: faker.helpers.arrayElement([costumer1.id, costumer2.id]),
+    customerId: faker.helpers.arrayElement([customer1.id, customer2.id]),
     restaurantId: restaurant.id,
     totalInCents,
     status: faker.helpers.arrayElement([
