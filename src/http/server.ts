@@ -52,6 +52,12 @@ const app = new Elysia()
       }
     }
   })
+  .use(
+    cors({
+      origin: 'http://localhost:5173',
+      methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    }),
+  )
   .use(registerRestaurant)
   .use(sendAuthLink)
   .use(authenticateFromLink)
