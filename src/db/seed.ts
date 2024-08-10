@@ -27,10 +27,10 @@ await db.delete(authLinks)
 console.log(chalk.yellow('🗸 Database Reset! '))
 
 /**
- * Create Costumers
+ * Create Customers
  */
 
-const [costumer1, costumer2] = await db
+const [customer1, customer2] = await db
   .insert(users)
   .values([
     {
@@ -46,7 +46,7 @@ const [costumer1, costumer2] = await db
   ])
   .returning()
 
-console.log(chalk.yellow('🗸 Created Costumers! '))
+console.log(chalk.yellow('🗸 Created Customers! '))
 
 /**
  * Create Manager
