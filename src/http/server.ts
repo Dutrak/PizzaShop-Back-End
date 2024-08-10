@@ -1,4 +1,5 @@
 import { Elysia } from 'elysia'
+import { cors } from '@elysiajs/cors'
 
 import { UnauthorizedError } from './errors/unauthorized-error'
 import { ResourceNotFoundError } from './errors/resource-not-found-error'
@@ -22,6 +23,7 @@ import { getMonthOrdersAmount } from './routes/get-month-orders-amout'
 import { getMonthCanceledOrdersAmount } from './routes/get-month-canceled-orders-amount'
 import { getPopularProducts } from './routes/get-popular-products'
 import { getDailyRevenueInPeriod } from './routes/get-daily-revenue-in-period'
+import { updateProfile } from './routes/update-profile'
 
 const app = new Elysia()
   .error({
@@ -63,6 +65,7 @@ const app = new Elysia()
   .use(authenticateFromLink)
   .use(signOut)
   .use(getProfile)
+  .use(updateProfile)
   .use(getManagedRestaurants)
   .use(getOrderDetails)
   .use(approveOrder)
