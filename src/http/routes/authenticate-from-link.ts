@@ -52,7 +52,7 @@ export const authenticateFromLink = new Elysia().use(auth).get(
     error({ error, set }) {
       if (error instanceof AuthLinkExpiredError) {
         set.status = 410
-        return { message: error.message }
+        return { code: 'LINK_EXPIRED', message: error.message }
       }
     },
   },

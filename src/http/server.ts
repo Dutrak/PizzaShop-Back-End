@@ -34,7 +34,7 @@ const app = new Elysia()
     switch (code) {
       case 'UNAUTHORIZED': {
         set.status = 401
-        return { message: error.message }
+        return { message: error.message, code }
       }
       case 'VALIDATION': {
         set.status = error.toResponse().status
@@ -47,7 +47,7 @@ const app = new Elysia()
       }
       case 'RESOURCE_NOT_FOUND': {
         set.status = 404
-        return { message: error.message }
+        return { message: error.message, code }
       }
       case 'NOT_FOUND': {
         return new Response(null, { status: 404 })
@@ -57,7 +57,7 @@ const app = new Elysia()
   .use(
     cors({
       origin: 'http://localhost:5173',
-      methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+      methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     }),
   )
   .use(registerRestaurant)

@@ -63,7 +63,7 @@ export const getDailyRevenueInPeriod = new Elysia().use(auth).get(
       return dateA.getTime() - dateB.getTime()
     })
 
-    return orderedRevenuePerDay
+    return orderedRevenuePerDay || []
   },
   {
     query: t.Object({
